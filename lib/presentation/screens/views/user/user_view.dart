@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/registro_users_entradas.dart/registero_entradas.dart';
-
 class UserDetailScreen extends StatelessWidget {
   static const String name = 'user-view';
 
