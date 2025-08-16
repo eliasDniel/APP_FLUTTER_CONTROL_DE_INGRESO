@@ -1,9 +1,12 @@
-
 import 'package:go_router/go_router.dart';
+import '../../presentation/screens/notifications/notifications_details.dart';
+import '../../presentation/screens/notifications/view_notifications.dart';
 import '../../presentation/screens/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/home/0', routes: [
-  GoRoute(
+final appRouter = GoRouter(
+  initialLocation: '/home/0',
+  routes: [
+    GoRoute(
       path: '/home/:page',
       name: HomeScreen.name,
       builder: (context, state) {
@@ -15,23 +18,27 @@ final appRouter = GoRouter(initialLocation: '/home/0', routes: [
         GoRoute(
           path: 'user-create',
           name: UserCreateScreen.name,
-          builder:(context, state) => const UserCreateScreen(),
+          builder: (context, state) => const UserCreateScreen(),
         ),
         GoRoute(
           path: 'select-user',
           name: UserDetailScreen.name,
-          builder:(context, state) => const UserDetailScreen(),
+          builder: (context, state) => const UserDetailScreen(),
         ),
         GoRoute(
           path: 'notification',
           name: NotificationsPermissions.name,
-          builder:(context, state) => const NotificationsPermissions(),
+          builder: (context, state) => const NotificationsPermissions(),
         ),
-        
+
         GoRoute(
           path: 'detalis/:messageId',
           name: NotificationsDetails.name,
-          builder:(context, state) =>  NotificationsDetails(messageId: state.pathParameters['messageId']??'',),
-        )
-      ])
-]);
+          builder: (context, state) => NotificationsDetails(
+            messageId: state.pathParameters['messageId'] ?? '',
+          ),
+        ),
+      ],
+    ),
+  ],
+);
