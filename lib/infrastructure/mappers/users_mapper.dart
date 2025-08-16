@@ -8,5 +8,6 @@ class UsersMapper {
     email: user.email,
     isStaff: user.isStaff,
     lastname: user.lastName,
+    isActive: user.isActive
   );
 }

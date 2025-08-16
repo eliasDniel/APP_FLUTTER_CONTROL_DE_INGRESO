@@ -62,9 +62,12 @@ class _ListaUsersState extends ConsumerState<_ListaUsers> {
                   // widget.registroProvider.selectUser(registro);
                   // context.push('/home/2/select-user');
                 },
-                title: Text(registro.username, style: GoogleFonts.poppins()),
+                title: Text(
+                  '${registro.username} ${registro.lastname} ',
+                  style: GoogleFonts.poppins(),
+                ),
                 subtitle: Text(registro.email, style: GoogleFonts.poppins()),
-                leading: registro.isStaff
+                leading: registro.isActive
                     ? Text('Activo', style: GoogleFonts.poppins())
                     : Text('Inactivo', style: GoogleFonts.poppins()),
                 trailing: registro.isStaff
