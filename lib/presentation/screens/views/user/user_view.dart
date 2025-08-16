@@ -31,17 +31,17 @@ class UserDetailScreen extends StatelessWidget {
           elevation: 4,
           child: ListView(
             padding: const EdgeInsets.all(16),
-            children: [
-              _buildRow(
-                  "Username", registroProvider.userSeleccionado.username!),
-              _buildRow("Nombre", registroProvider.userSeleccionado.firstName!),
-              _buildRow(
-                  "Apellido", registroProvider.userSeleccionado.lastName!),
-              _buildRow("Correo", registroProvider.userSeleccionado.email!),
-              _buildRow("Activo",
-                  registroProvider.userSeleccionado.isActive! ? "Sí" : "No"),
-              _buildRow("Staff",
-                  registroProvider.userSeleccionado.isStaff! ? "Sí" : "No"),
+            children: const [
+              // _buildRow(
+              //     "Username", registroProvider.userSeleccionado.username!),
+              // _buildRow("Nombre", registroProvider.userSeleccionado.firstName!),
+              // _buildRow(
+              //     "Apellido", registroProvider.userSeleccionado.lastName!),
+              // _buildRow("Correo", registroProvider.userSeleccionado.email!),
+              // _buildRow("Activo",
+              //     registroProvider.userSeleccionado.isActive! ? "Sí" : "No"),
+              // _buildRow("Staff",
+              //     registroProvider.userSeleccionado.isStaff! ? "Sí" : "No"),
             ],
           ),
         ),

@@ -1,23 +1,23 @@
-class User {
-  String? username;
-  String? firstName;
-  String? lastName;
-  String? email;
-  bool? isActive;
-  bool? isStaff;
+class UserResult {
+  String username;
+  String firstName;
+  String lastName;
+  String email;
+  bool isActive;
+  bool isStaff;
 
-  User({
-    this.username,
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.isActive,
-    this.isStaff,
+  UserResult({
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.isActive,
+    required this.isStaff,
   });
 
   // Factory constructor to create a User from a JSON map
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserResult.fromJson(Map<String, dynamic> json) {
+    return UserResult(
       username: json['username'],
       firstName: json['first_name'],
       lastName: json['last_name'],
@@ -41,33 +41,30 @@ class User {
 }
 
 class UserResponse {
-  List<User> users;
+  List<UserResult> users;
 
   UserResponse({required this.users});
 
   // Factory constructor to create a UserResponse from JSON
   factory UserResponse.fromJson(Map<String, dynamic> json) {
     var list = json['users'] as List;
-    List<User> usersList = list.map((i) => User.fromJson(i)).toList();
+    List<UserResult> usersList = list
+        .map((i) => UserResult.fromJson(i))
+        .toList();
 
-    return UserResponse(
-      users: usersList,
-    );
+    return UserResponse(users: usersList);
   }
 
   // Method to convert UserResponse to JSON
   Map<String, dynamic> toJson() {
-    return {
-      'users': users.map((user) => user.toJson()).toList(),
-    };
+    return {'users': users.map((user) => user.toJson()).toList()};
   }
 }
-
 
 class UserCreateResponse {
   String status;
   String message;
-  User user;
+  UserResult user;
 
   UserCreateResponse({
     required this.status,
@@ -80,16 +77,12 @@ class UserCreateResponse {
     return UserCreateResponse(
       status: json['status'],
       message: json['message'],
-      user: User.fromJson(json['user']),
+      user: UserResult.fromJson(json['user']),
     );
   }
 
   // Method to convert UserResponse to JSON
   Map<String, dynamic> toJson() {
-    return {
-      'status': status,
-      'message': message,
-      'user': user.toJson(),
-    };
+    return {'status': status, 'message': message, 'user': user.toJson()};
   }
 }

@@ -8,8 +8,8 @@ import '../../../infrastructure/models/regitro_entradas/users_response.dart';
 
 class RegistroProvider extends ChangeNotifier {
   List<RegistroEntrada> listaMonitoreo = [];
-  List<User> users = [];
-  User userSeleccionado = User();
+  List<UserResult> users = [];
+  // UserResult userSeleccionado = UserResult();
   int totalIngresos = 0;
   int admin = 0;
   int totalUsuarios = 0;
@@ -59,8 +59,8 @@ class RegistroProvider extends ChangeNotifier {
     } catch (e) {}
   }
 
-  void selectUser(User user) {
-    userSeleccionado = user;
+  void selectUser(UserResult user) {
+    // userSeleccionado = user;
     notifyListeners();
   }
 
@@ -71,7 +71,7 @@ class RegistroProvider extends ChangeNotifier {
       final entradas = UserResponse.fromJson(response.data);
       users = entradas.users
           .map(
-            (user) => User(
+            (user) => UserResult(
                 username: user.username,
                 email: user.email,
                 firstName: user.firstName,
