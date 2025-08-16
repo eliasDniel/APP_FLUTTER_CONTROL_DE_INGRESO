@@ -1,9 +1,8 @@
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide ChangeNotifierProvider;
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'config/router/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'presentation/blocs/notifications/notifications_bloc.dart';
@@ -14,19 +13,13 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await NotificationsBloc.initializeFCM();
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => RegistroProvider(),
+    ProviderScope(
+      child: MultiProvider(
+        providers: [ChangeNotifierProvider(create: (_) => RegistroProvider())],
+        child: MultiBlocProvider(
+          providers: [BlocProvider(create: (_) => NotificationsBloc())],
+          child: const MainApp(),
         ),
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => NotificationsBloc(),
-          ),
-        ],
-        child: const MainApp(),
       ),
     ),
   );
@@ -60,8 +53,8 @@ class _HandleNotificationInteractionState
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance
+        .getInitialMessage();
 
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
