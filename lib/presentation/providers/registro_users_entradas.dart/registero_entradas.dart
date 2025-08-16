@@ -1,11 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
 import '../../../config/helpers/fetch.dart';
-import '../../../infrastructure/models/metricas_response.dart';
-import '../../../infrastructure/models/regitro_entradas/registro_entrada.dart';
-import '../../../infrastructure/models/regitro_entradas/registro_response.dart';
-import '../../../infrastructure/models/regitro_entradas/users_response.dart';
 
 class RegistroProvider extends ChangeNotifier {
   List<RegistroEntrada> listaMonitoreo = [];
