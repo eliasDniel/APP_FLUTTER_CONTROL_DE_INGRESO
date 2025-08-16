@@ -14,14 +14,4 @@ class PushMessage {
     this.data,
     this.imageUrl,
   });
-
-  @override
-  String toString() {
-    return '''
-PushMessage - 
-  id: $messageId
-  title: $title
-  body: $body
-  data: $data''';
-  }
 }
