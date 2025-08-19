@@ -1,28 +1,28 @@
-import 'package:admin/models/recent_file.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../constants.dart';
+import '../../../config/const/constantes.dart';
+import '../../../config/helpers/recent_file.dart';
 
 class RecentFiles extends StatelessWidget {
   const RecentFiles({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius:  BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Recent Files",
+            "Ingresos Recientes",
             style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
@@ -30,15 +30,15 @@ class RecentFiles extends StatelessWidget {
             child: DataTable(
               columnSpacing: defaultPadding,
               // minWidth: 600,
-              columns: [
+              columns: const [
                 DataColumn(
-                  label: Text("File Name"),
+                  label: Text("Metodo"),
                 ),
                 DataColumn(
-                  label: Text("Date"),
+                  label: Text("Nombre"),
                 ),
                 DataColumn(
-                  label: Text("Size"),
+                  label: Text("hora"),
                 ),
               ],
               rows: List.generate(

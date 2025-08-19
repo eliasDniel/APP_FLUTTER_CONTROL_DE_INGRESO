@@ -12,7 +12,7 @@ class AppTheme {
       ).apply(bodyColor: Colors.white),
       canvasColor: secondaryColor,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.red,
+        seedColor: Colors.blue,
         brightness: Brightness.dark, // mantiene el estilo oscuro
       ),
     );

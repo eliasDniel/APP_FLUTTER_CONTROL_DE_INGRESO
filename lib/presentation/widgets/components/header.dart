@@ -1,34 +1,41 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-
+import 'package:go_router/go_router.dart';
+import 'package:heroicons/heroicons.dart';
 import '../../../config/const/constantes.dart';
+import '../../../config/helpers/responsive.dart';
 
 
 class Header extends StatelessWidget {
   const Header({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (!Responsive.isDesktop(context))
-          IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: context.read<MenuAppController>().controlMenu,
-          ),
-        if (!Responsive.isMobile(context))
+        // if (!Responsive.isDesktop(context))
+        //   IconButton(
+        //     icon: const Icon(Icons.menu),
+        //     onPressed: context.read<MenuAppController>().controlMenu,
+        //   ),
+        // if (!Responsive.isMobile(context))
           Text(
             "Dashboard",
             style: Theme.of(context).textTheme.titleLarge,
           ),
-        if (!Responsive.isMobile(context))
-          Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        Expanded(child: SearchField()),
-        ProfileCard()
+          const Spacer(),
+        // if (!Responsive.isMobile(context))
+        //   Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+        // const Expanded(child: SearchField()),
+        IconButton(
+              onPressed: () {
+                context.push('/home/0/notification');
+              },
+              icon: const HeroIcon(HeroIcons.bell),
+            ),
       ],
     );
   }
@@ -36,8 +43,8 @@ class Header extends StatelessWidget {
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

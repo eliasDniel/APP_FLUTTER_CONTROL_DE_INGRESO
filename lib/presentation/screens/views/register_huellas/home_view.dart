@@ -3,7 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:provider/provider.dart';
+import '../../../../config/const/constantes.dart';
+import '../../../../config/helpers/responsive.dart';
 import '../../../providers/registro_users_entradas.dart/registero_entradas.dart';
+import '../../../widgets/components/header.dart';
+import '../../../widgets/components/my_fields.dart';
+import '../../../widgets/components/recent_files.dart';
+import '../../../widgets/components/storage_details.dart';
 import '../home_screen.dart';
 
 class HomeView extends StatelessWidget {
@@ -11,10 +17,39 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final registroProvider = Provider.of<RegistroProvider>(context);
-    return Scaffold(
-      body: _BodyDasboard(
-        registroProvider: registroProvider,
+    return SafeArea(
+      child: SingleChildScrollView(
+        primary: false,
+        padding: const EdgeInsets.all(defaultPadding),
+        child: Column(
+          children: [
+            const Header(),
+            const SizedBox(height: defaultPadding),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    children: [
+                      const MyFiles(),
+                      const SizedBox(height: defaultPadding),
+                      const RecentFiles(),
+                      if (Responsive.isMobile(context))
+                        const SizedBox(height: defaultPadding),
+                      if (Responsive.isMobile(context)) const StorageDetails(),
+                    ],
+                  ),
+                ),
+                if (!Responsive.isMobile(context))
+                  const SizedBox(width: defaultPadding),
+                // On Mobile means if the screen is less than 850 we don't want to show it
+                if (!Responsive.isMobile(context))
+                  const Expanded(flex: 2, child: StorageDetails()),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -22,9 +57,7 @@ class HomeView extends StatelessWidget {
 
 class _BodyDasboard extends StatefulWidget {
   final RegistroProvider registroProvider;
-  const _BodyDasboard({
-    required this.registroProvider,
-  });
+  const _BodyDasboard({required this.registroProvider});
 
   @override
   State<_BodyDasboard> createState() => _BodyDasboardState();
@@ -48,10 +81,7 @@ class _BodyDasboardState extends State<_BodyDasboard> {
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 16),
-              Text(
-                'Cargando...',
-                style: GoogleFonts.poppins(fontSize: 16),
-              ),
+              Text('Cargando...', style: GoogleFonts.poppins(fontSize: 16)),
             ],
           ),
         ),
@@ -63,15 +93,18 @@ class _BodyDasboardState extends State<_BodyDasboard> {
         SliverAppBar(
           title: Text(
             'Dasboard',
-            style:
-                GoogleFonts.poppins(fontSize: 25, fontWeight: FontWeight.w400),
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           actions: [
             IconButton(
-                onPressed: () {
-                  context.push('/home/0/notification');
-                },
-                icon: const HeroIcon(HeroIcons.bell)),
+              onPressed: () {
+                context.push('/home/0/notification');
+              },
+              icon: const HeroIcon(HeroIcons.bell),
+            ),
           ],
         ),
         SliverToBoxAdapter(
@@ -84,7 +117,9 @@ class _BodyDasboardState extends State<_BodyDasboard> {
                 Text(
                   'Project Summary',
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500, fontSize: 18),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Column(
@@ -98,9 +133,7 @@ class _BodyDasboardState extends State<_BodyDasboard> {
                           number:
                               '${widget.registroProvider.ingresosPorHuella}',
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        const SizedBox(width: 10),
                         CustomDateDasboard(
                           color: Colors.pink.shade200,
                           descrip: 'Ingresos por PIN',
@@ -108,9 +141,7 @@ class _BodyDasboardState extends State<_BodyDasboard> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         CustomDateDasboard(
@@ -118,9 +149,7 @@ class _BodyDasboardState extends State<_BodyDasboard> {
                           descrip: 'Administradores',
                           number: '${widget.registroProvider.admin}',
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        const SizedBox(width: 10),
                         CustomDateDasboard(
                           color: Colors.green.shade200,
                           descrip: 'Users',
@@ -140,24 +169,20 @@ class _BodyDasboardState extends State<_BodyDasboard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Text(
                   'Project Statistics',
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500, fontSize: 18),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                  ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 const SizedBox(
                   height: 290, // 👈 le damos altura para evitar el error
                   child: CustomBarChart(),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                const SizedBox(height: 5),
               ],
             ),
           ),
@@ -165,21 +190,23 @@ class _BodyDasboardState extends State<_BodyDasboard> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Row(children: [
-              CustomDateFinales(
+            child: Row(
+              children: [
+                CustomDateFinales(
                   descrip: 'Total de Usuarios',
                   number:
-                      '${'${widget.registroProvider.totalUsuarios}'} usuarios'),
-              const SizedBox(
-                width: 5,
-              ),
-              CustomDateFinales(
+                      '${'${widget.registroProvider.totalUsuarios}'} usuarios',
+                ),
+                const SizedBox(width: 5),
+                CustomDateFinales(
                   descrip: 'Total de ingresos',
                   number:
-                      '${'${widget.registroProvider.totalIngresos}'} ingresos por hoy'),
-            ]),
+                      '${'${widget.registroProvider.totalIngresos}'} ingresos por hoy',
+                ),
+              ],
+            ),
           ),
-        )
+        ),
       ],
     );
   }

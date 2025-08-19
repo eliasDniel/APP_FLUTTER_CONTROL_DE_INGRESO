@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../constants.dart';
+import '../../../config/const/constantes.dart';
+
 
 class StorageInfoCard extends StatelessWidget {
   const StorageInfoCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.svgSrc,
     required this.amountOfFiles,
     required this.numOfFiles,
-  }) : super(key: key);
+  });
 
   final String title, svgSrc, amountOfFiles;
   final int numOfFiles;
@@ -18,8 +19,8 @@ class StorageInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: defaultPadding),
-      padding: EdgeInsets.all(defaultPadding),
+      margin: const EdgeInsets.only(top: defaultPadding),
+      padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         border: Border.all(width: 2, color: primaryColor.withOpacity(0.15)),
         borderRadius: const BorderRadius.all(
