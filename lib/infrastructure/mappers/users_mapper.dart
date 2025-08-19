@@ -10,4 +10,13 @@ class UsersMapper {
     lastname: user.lastName,
     isActive: user.isActive
   );
+
+  static UserResult fromEntityToUser(User user) => UserResult(
+    username: user.username,
+    firstName: user.username,
+    lastName: user.lastname,
+    email: user.email,
+    isActive: user.isActive,
+    isStaff: user.isStaff,
+  );
 }

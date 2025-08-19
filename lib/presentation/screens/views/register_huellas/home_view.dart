@@ -1,8 +1,9 @@
+import 'package:app_flutter_biometry_access/presentation/providers/metricas/metricas_provider_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:provider/provider.dart';
 import '../../../../config/const/constantes.dart';
 import '../../../../config/helpers/responsive.dart';
 import '../../../providers/registro_users_entradas.dart/registero_entradas.dart';
@@ -12,11 +13,22 @@ import '../../../widgets/components/recent_files.dart';
 import '../../../widgets/components/storage_details.dart';
 import '../home_screen.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
+  HomeViewState createState() => HomeViewState();
+}
+
+class HomeViewState extends ConsumerState<HomeView> {
+  @override
+  void initState() {
+    ref.read(metricesProvider.notifier).loadMetricas();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    final registroProvider = ref.watch(metricesProvider);
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
@@ -34,7 +46,7 @@ class HomeView extends StatelessWidget {
                     children: [
                       const MyFiles(),
                       const SizedBox(height: defaultPadding),
-                      const RecentFiles(),
+                       RecentFiles(ingresos: registroProvider.ultimos10,),
                       if (Responsive.isMobile(context))
                         const SizedBox(height: defaultPadding),
                       if (Responsive.isMobile(context)) const StorageDetails(),

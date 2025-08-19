@@ -1,16 +1,9 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../config/const/constantes.dart';
 import '../../../config/helpers/card_dasboard.dart';
 
-
 class FileInfoCard extends StatelessWidget {
-  const FileInfoCard({
-    super.key,
-    required this.info,
-  });
+  const FileInfoCard({super.key, required this.info});
 
   final CloudStorageInfo info;
 
@@ -20,7 +13,7 @@ class FileInfoCard extends StatelessWidget {
       padding: const EdgeInsets.all(defaultPadding),
       decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius:  BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,39 +29,30 @@ class FileInfoCard extends StatelessWidget {
                   color: info.color!.withOpacity(0.1),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
-                child: const Center(child: Icon(Icons.fingerprint,color: primaryColor,))
+                child: Center(child: Icon(info.iconData!, color: info.color!)),
               ),
-              const Icon(Icons.more_vert, color: Colors.white54)
+              const Icon(Icons.more_vert, color: Colors.white54),
             ],
           ),
-          Text(
-            info.title!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          ProgressLine(
-            color: info.color,
-            percentage: info.percentage,
-          ),
+          Text(info.title!, maxLines: 1, overflow: TextOverflow.ellipsis),
+          ProgressLine(color: info.color, percentage: info.percentage),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "${info.numOfFiles} Files",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.white70),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall!.copyWith(color: Colors.white70),
               ),
               Text(
                 info.totalStorage!,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.white),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall!.copyWith(color: Colors.white),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

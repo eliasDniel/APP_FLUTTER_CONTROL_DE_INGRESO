@@ -1,5 +1,5 @@
 import 'package:app_flutter_biometry_access/domain/entities/user.dart';
-import 'package:app_flutter_biometry_access/presentation/providers/user_instance_provider.dart';
+import 'package:app_flutter_biometry_access/presentation/providers/users/user_instance_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userRepositoryProvider = StateNotifierProvider<UserNotifier, List<User>>((

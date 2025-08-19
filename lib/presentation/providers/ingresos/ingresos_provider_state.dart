@@ -1,5 +1,5 @@
 import 'package:app_flutter_biometry_access/domain/entities/entrada.dart';
-import 'package:app_flutter_biometry_access/presentation/providers/ingreso_intance_provider.dart';
+import 'package:app_flutter_biometry_access/presentation/providers/ingresos/ingreso_intance_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final ingresosRepositoryProvider =

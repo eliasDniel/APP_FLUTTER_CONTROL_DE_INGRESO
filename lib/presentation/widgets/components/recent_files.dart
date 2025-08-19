@@ -1,14 +1,13 @@
-
+import 'package:app_flutter_biometry_access/domain/entities/entrada.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../config/const/constantes.dart';
-import '../../../config/helpers/recent_file.dart';
+
 
 class RecentFiles extends StatelessWidget {
-  const RecentFiles({
-    super.key,
-  });
+  final List<Ingreso> ingresos;
+  const RecentFiles({super.key, required this.ingresos});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class RecentFiles extends StatelessWidget {
       padding: const EdgeInsets.all(defaultPadding),
       decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius:  BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,19 +30,13 @@ class RecentFiles extends StatelessWidget {
               columnSpacing: defaultPadding,
               // minWidth: 600,
               columns: const [
-                DataColumn(
-                  label: Text("Metodo"),
-                ),
-                DataColumn(
-                  label: Text("Nombre"),
-                ),
-                DataColumn(
-                  label: Text("hora"),
-                ),
+                DataColumn(label: Text("Metodo")),
+                DataColumn(label: Text("Nombre")),
+                DataColumn(label: Text("hora")),
               ],
               rows: List.generate(
-                demoRecentFiles.length,
-                (index) => recentFileDataRow(demoRecentFiles[index]),
+                ingresos.length,
+                (index) => recentFileDataRow(ingresos[index]),
               ),
             ),
           ),
@@ -53,26 +46,22 @@ class RecentFiles extends StatelessWidget {
   }
 }
 
-DataRow recentFileDataRow(RecentFile fileInfo) {
+DataRow recentFileDataRow(Ingreso ingreso) {
   return DataRow(
     cells: [
       DataCell(
         Row(
           children: [
-            SvgPicture.asset(
-              fileInfo.icon!,
-              height: 30,
-              width: 30,
-            ),
+            SvgPicture.asset("assets/icons/xd_file.svg", height: 30, width: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(fileInfo.title!),
+              child: Text(ingreso.metodo),
             ),
           ],
         ),
       ),
-      DataCell(Text(fileInfo.date!)),
-      DataCell(Text(fileInfo.size!)),
+      DataCell(Text(ingreso.username)),
+      DataCell(Text(ingreso.formatearFechaHora())),
     ],
   );
 }

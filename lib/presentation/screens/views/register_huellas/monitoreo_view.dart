@@ -1,4 +1,4 @@
-import 'package:app_flutter_biometry_access/presentation/providers/ingresos_provider_state.dart';
+import 'package:app_flutter_biometry_access/presentation/providers/ingresos/ingresos_provider_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';

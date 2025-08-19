@@ -50,8 +50,7 @@ class RegistroProvider extends ChangeNotifier {
       final metricas = MetricasResponse.fromJson(response.data);
       totalIngresos = metricas.data.registrosEntradaDia;
       totalUsuarios = metricas.data.totalUsuarios;
-      admin = metricas.data.usuariosActivos;
-      userNormales = metricas.data.usuariosInactivos;
+
       ingresosPorHuella = metricas.data.registrosHuella;
       ingresosPorPIN = metricas.data.registrosPin;
       isLoadingMetricas = false;
