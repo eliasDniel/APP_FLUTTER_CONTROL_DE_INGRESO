@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import '../../../config/const/constantes.dart';
 
 class Chart extends StatefulWidget {
-  final List<double> values;
+  final List<double> values; // valores en porcentaje (0-100)
+  final int totalActividades; // total de actividades para el centro
   final List<Color>? colors;
   final List<String>? labels;
-  final String? centerLabel;
   const Chart({
     super.key,
     required this.values,
+    required this.totalActividades,
     this.colors,
     this.labels,
-    this.centerLabel,
   });
 
   @override
@@ -79,7 +79,6 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final total = widget.values.fold<double>(0, (a, b) => a + b);
     return SizedBox(
       height: 200,
       child: Stack(
@@ -103,7 +102,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
               children: [
                 const SizedBox(height: defaultPadding),
                 Text(
-                  total.toStringAsFixed(1),
+                  widget.totalActividades.toString(),
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -111,7 +110,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Text(widget.centerLabel ?? "de actividades"),
+                const Text("de informacion"),
               ],
             ),
           ),

@@ -39,7 +39,7 @@ class StorageDetails extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: defaultPadding),
-          Chart(values: [getPercent2(pint), getPercent2(huella), getPercent2(users), getPercent2(admin)]),
+          Chart(values: [getPercent2(pint), getPercent2(huella), getPercent2(users), getPercent2(admin)], totalActividades: pint + huella + users + admin),
           StorageInfoCard(
             svgSrc: "assets/icons/pin.svg",
             title: "Ingresos por PIN",

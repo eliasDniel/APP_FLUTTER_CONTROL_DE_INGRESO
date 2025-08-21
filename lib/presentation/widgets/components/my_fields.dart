@@ -32,7 +32,7 @@ class MyFiles extends StatelessWidget {
               ),
               onPressed: () {},
               icon: const Icon(Icons.add),
-              label: const Text("Add New"),
+              label: const Text("Agregar"),
             ),
           ],
         ),
