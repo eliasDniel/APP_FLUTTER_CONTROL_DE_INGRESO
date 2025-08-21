@@ -11,6 +11,8 @@ This project is a real-time access monitoring application built with Flutter. It
 - Push notifications via Firebase Cloud Messaging
 - Modern UI with custom themes and icons
 
+
+
 ## Screenshots
 <!-- Add screenshots here if available -->
 

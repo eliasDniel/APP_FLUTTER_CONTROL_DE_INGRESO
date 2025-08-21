@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import '../../../config/const/constantes.dart';
 import '../../../config/helpers/card_dasboard.dart';
@@ -9,51 +10,53 @@ class FileInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                  color: info.color!.withOpacity(0.1),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+    return FadeIn(
+      child: Container(
+        padding: const EdgeInsets.all(defaultPadding),
+        decoration: const BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: info.color!.withOpacity(0.1),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Center(child: Icon(info.iconData!, color: info.color!)),
                 ),
-                child: Center(child: Icon(info.iconData!, color: info.color!)),
-              ),
-              const Icon(Icons.more_vert, color: Colors.white54),
-            ],
-          ),
-          Text(info.title!, maxLines: 1, overflow: TextOverflow.ellipsis),
-          ProgressLine(color: info.color, percentage: info.percentage),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "${info.numOfFiles} Files",
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall!.copyWith(color: Colors.white70),
-              ),
-              Text(
-                info.totalStorage!,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall!.copyWith(color: Colors.white),
-              ),
-            ],
-          ),
-        ],
+                const Icon(Icons.more_vert, color: Colors.white54),
+              ],
+            ),
+            Text(info.title!, maxLines: 1, overflow: TextOverflow.ellipsis),
+            ProgressLine(color: info.color, percentage: info.percentage),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "${info.numOfFiles} Files",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall!.copyWith(color: Colors.white70),
+                ),
+                Text(
+                  info.totalStorage!,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall!.copyWith(color: Colors.white),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

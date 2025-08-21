@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../config/const/constantes.dart';
 
-
 class StorageInfoCard extends StatelessWidget {
   const StorageInfoCard({
     super.key,
@@ -23,16 +22,25 @@ class StorageInfoCard extends StatelessWidget {
       padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         border: Border.all(width: 2, color: primaryColor.withOpacity(0.15)),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(defaultPadding),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(defaultPadding)),
       ),
       child: Row(
         children: [
           SizedBox(
             height: 20,
             width: 20,
-            child: SvgPicture.asset(svgSrc),
+            child: SvgPicture.asset(
+              svgSrc,
+              color: title.contains("PIN")
+                  ? Colors.purple
+                  : title.contains("Huella")
+                  ? Colors.blue
+                  : title.contains("Admin")
+                  ? Colors.orange
+                  : title.contains("User")
+                  ? Colors.green
+                  : Colors.grey,
+            ),
           ),
           Expanded(
             child: Padding(
@@ -40,23 +48,18 @@ class StorageInfoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
                   Text(
                     "$numOfFiles Files",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: Colors.white70),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall!.copyWith(color: Colors.white70),
                   ),
                 ],
               ),
             ),
           ),
-          Text(amountOfFiles)
+          Text(amountOfFiles),
         ],
       ),
     );

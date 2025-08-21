@@ -69,7 +69,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                       RecentFiles(ingresos: registroProvider.ultimos10),
                       if (Responsive.isMobile(context))
                         const SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) const StorageDetails(),
+                      if (Responsive.isMobile(context)) StorageDetails(admin: registroProvider.registrosEntradaDia, huella: registroProvider.registrosHuella, users: registroProvider.totalUsuarios, pint: registroProvider.registrosPin),
                     ],
                   ),
                 ),
@@ -77,7 +77,12 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                   const SizedBox(width: defaultPadding),
                 // On Mobile means if the screen is less than 850 we don't want to show it
                 if (!Responsive.isMobile(context))
-                  const Expanded(flex: 2, child: StorageDetails()),
+                  Expanded(flex: 2, child: StorageDetails(
+                    admin: registroProvider.registrosEntradaDia,
+                    huella: registroProvider.registrosHuella,
+                    users: registroProvider.totalUsuarios,
+                    pint: registroProvider.registrosPin,
+                  )),
               ],
             ),
           ],

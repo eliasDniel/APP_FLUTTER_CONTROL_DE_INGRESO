@@ -212,7 +212,6 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
   @override
   Widget build(BuildContext context) {
     final registros = widget.registroProvider.listaMonitoreo;
-
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {

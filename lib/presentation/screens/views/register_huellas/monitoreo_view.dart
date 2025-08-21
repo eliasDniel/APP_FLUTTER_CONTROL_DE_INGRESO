@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:app_flutter_biometry_access/presentation/providers/ingresos/ingresos_provider_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,21 +59,23 @@ class MonitoreoViewState extends ConsumerState<MonitoreoView> with AutomaticKeep
           itemCount: ingresos.length,
           itemBuilder: (context, index) {
             final registro = ingresos[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 5),
-              child: Card(
-                child: ListTile(
-                  title: Text(
-                    "${registro.firstName} ${registro.lastName}",
-                    style: GoogleFonts.poppins(),
-                  ),
-                  subtitle: Text(registro.email, style: GoogleFonts.poppins()),
-                  leading: registro.metodo == "Huella Digital"
-                      ? const Icon(Icons.fingerprint)
-                      : const Icon(Icons.dialpad),
-                  trailing: Text(
-                    registro.formatearFechaHora(),
-                    style: GoogleFonts.poppins(),
+            return FadeInUp(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Card(
+                  child: ListTile(
+                    title: Text(
+                      "${registro.firstName} ${registro.lastName}",
+                      style: GoogleFonts.poppins(),
+                    ),
+                    subtitle: Text(registro.email, style: GoogleFonts.poppins()),
+                    leading: registro.metodo == "Huella Digital"
+                        ? const Icon(Icons.fingerprint)
+                        : const Icon(Icons.dialpad),
+                    trailing: Text(
+                      registro.formatearFechaHora(),
+                      style: GoogleFonts.poppins(),
+                    ),
                   ),
                 ),
               ),

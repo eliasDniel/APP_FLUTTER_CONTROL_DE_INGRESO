@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:app_flutter_biometry_access/presentation/providers/users/user_provider_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,28 +67,30 @@ class UsersViewState extends ConsumerState<UsersView> with AutomaticKeepAliveCli
             final registro = users[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 5),
-              child: Card(
-                child: ListTile(
-                  onTap: () {},
-                  title: Text(
-                    '${registro.username} ${registro.lastname} ',
-                    style: GoogleFonts.poppins(),
+              child: FadeInUp(
+                child: Card(
+                  child: ListTile(
+                    onTap: () {},
+                    title: Text(
+                      '${registro.username} ${registro.lastname} ',
+                      style: GoogleFonts.poppins(),
+                    ),
+                    subtitle: Text(registro.email, style: GoogleFonts.poppins()),
+                    leading: registro.isActive
+                        ? Text('Activo', style: GoogleFonts.poppins())
+                        : Text('Inactivo', style: GoogleFonts.poppins()),
+                    trailing: registro.isStaff
+                        ? const HeroIcon(
+                            HeroIcons.shieldCheck,
+                            size: 24,
+                            color: Colors.blue,
+                          ) // Icono de administrador
+                        : const HeroIcon(
+                            HeroIcons.userCircle,
+                            size: 24,
+                            color: Colors.grey,
+                          ), // Icono de usuario normal
                   ),
-                  subtitle: Text(registro.email, style: GoogleFonts.poppins()),
-                  leading: registro.isActive
-                      ? Text('Activo', style: GoogleFonts.poppins())
-                      : Text('Inactivo', style: GoogleFonts.poppins()),
-                  trailing: registro.isStaff
-                      ? const HeroIcon(
-                          HeroIcons.shieldCheck,
-                          size: 24,
-                          color: Colors.blue,
-                        ) // Icono de administrador
-                      : const HeroIcon(
-                          HeroIcons.userCircle,
-                          size: 24,
-                          color: Colors.grey,
-                        ), // Icono de usuario normal
                 ),
               ),
             );

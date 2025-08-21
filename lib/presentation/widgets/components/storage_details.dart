@@ -4,9 +4,24 @@ import 'chart.dart';
 import 'storage_info_card.dart';
 
 class StorageDetails extends StatelessWidget {
-  const StorageDetails({
-    super.key,
-  });
+  String getPercent(int value) {
+    final int total = pint + huella + users + admin;
+    if (total == 0) return "0%";
+    double percent = (value / total) * 100;
+    return "${percent.toStringAsFixed(1)}%";
+  }
+
+    double getPercent2(int value) {
+    final int total = pint + huella + users + admin;
+    if (total == 0) return 0;
+    double percent = (value / total) * 100;
+    return percent;
+  }
+  final int pint;
+  final int huella;
+  final int users;
+  final int admin;
+  const StorageDetails({super.key, required this.pint, required this.huella, required this.users, required this.admin});
 
   @override
   Widget build(BuildContext context) {
@@ -16,41 +31,38 @@ class StorageDetails extends StatelessWidget {
         color: secondaryColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: const Column(
+      child:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Detalles de ingresos",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+          const Text(
+            "Detalles del monitoreo",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
-          SizedBox(height: defaultPadding),
-          Chart(),
+          const SizedBox(height: defaultPadding),
+          Chart(values: [getPercent2(pint), getPercent2(huella), getPercent2(users), getPercent2(admin)]),
           StorageInfoCard(
-            svgSrc: "assets/icons/Documents.svg",
+            svgSrc: "assets/icons/pin.svg",
             title: "Ingresos por PIN",
-            amountOfFiles: "1.3GB",
-            numOfFiles: 1328,
+            amountOfFiles: getPercent(pint),
+            numOfFiles: pint,
           ),
           StorageInfoCard(
-            svgSrc: "assets/icons/media.svg",
+            svgSrc: "assets/icons/huella.svg",
             title: "Ingresos por Huella",
-            amountOfFiles: "15.3GB",
-            numOfFiles: 1328,
+            amountOfFiles: getPercent(huella),
+            numOfFiles: huella,
           ),
           StorageInfoCard(
-            svgSrc: "assets/icons/folder.svg",
+            svgSrc: "assets/icons/user.svg",
             title: "Usuarios",
-            amountOfFiles: "1.3GB",
-            numOfFiles: 1328,
+            amountOfFiles: getPercent(users),
+            numOfFiles: users,
           ),
           StorageInfoCard(
-            svgSrc: "assets/icons/unknown.svg",
+            svgSrc: "assets/icons/admin.svg",
             title: "Administradores",
-            amountOfFiles: "1.3GB",
-            numOfFiles: 140,
+            amountOfFiles: getPercent(admin),
+            numOfFiles: admin,
           ),
         ],
       ),

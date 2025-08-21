@@ -1,6 +1,7 @@
 import 'package:app_flutter_biometry_access/domain/entities/entrada.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../config/const/constantes.dart';
 
@@ -20,9 +21,20 @@ class RecentFiles extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Ingresos Recientes",
-            style: Theme.of(context).textTheme.titleMedium,
+          Row(
+            children: [
+              Text(
+                "Ultimos ingresos",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const Spacer(),
+              TextButton(
+                onPressed: () {
+                  context.go('/home/1');
+                },
+                child: const Text("Ver todos"),
+              ),
+            ],
           ),
           SizedBox(
             width: double.infinity,
@@ -52,10 +64,10 @@ DataRow recentFileDataRow(Ingreso ingreso) {
       DataCell(
         Row(
           children: [
-            SvgPicture.asset("assets/icons/xd_file.svg", height: 30, width: 30),
+            SvgPicture.asset("assets/icons/${ingreso.metodo == "Huella Digital" ? "huella" : "pin"}.svg", height: 25, width: 25, color: Colors.white),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(ingreso.metodo),
+              child: Text(ingreso.metodo == "Huella Digital" ? "Huella" : "Pin"),
             ),
           ],
         ),
