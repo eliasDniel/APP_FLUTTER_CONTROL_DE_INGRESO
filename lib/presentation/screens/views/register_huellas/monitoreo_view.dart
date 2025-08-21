@@ -4,11 +4,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:heroicons/heroicons.dart';
 
-class MonitoreoView extends StatelessWidget {
+class MonitoreoView extends ConsumerStatefulWidget {
   const MonitoreoView({super.key});
 
   @override
+  MonitoreoViewState createState() => MonitoreoViewState();
+}
+
+class MonitoreoViewState extends ConsumerState<MonitoreoView> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(ingresosRepositoryProvider.notifier).loadIngresosMethod();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final ingresos = ref.watch(ingresosRepositoryProvider);
+    final isLoading = ref.watch(ingresosRepositoryProvider.notifier).isLoading;
+    if (isLoading) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 50),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              Text(
+                'Cargando datos...',
+                style: GoogleFonts.poppins(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -19,56 +51,39 @@ class MonitoreoView extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const HeroIcon(HeroIcons.signal)),
         ],
       ),
-      body: const _ListaRegistros(),
-    );
-  }
-}
-
-class _ListaRegistros extends ConsumerStatefulWidget {
-  const _ListaRegistros();
-
-  @override
-  _ListaRegistrosState createState() => _ListaRegistrosState();
-}
-
-class _ListaRegistrosState extends ConsumerState<_ListaRegistros> {
-  @override
-  void initState() {
-    super.initState();
-    ref.read(ingresosRepositoryProvider.notifier).loadIngresosMethod();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final ingresos = ref.watch(ingresosRepositoryProvider);
-    return RefreshIndicator(
-      onRefresh: () async {},
-      child: ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: ingresos.length,
-        itemBuilder: (context, index) {
-          final registro = ingresos[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Card(
-              child: ListTile(
-                title: Text(
-                  "${registro.firstName} ${registro.lastName}",
-                  style: GoogleFonts.poppins(),
-                ),
-                subtitle: Text(registro.email, style: GoogleFonts.poppins()),
-                leading: registro.metodo == "Huella Digital"
-                    ? const Icon(Icons.fingerprint)
-                    : const Icon(Icons.dialpad),
-                trailing: Text(
-                  registro.formatearFechaHora(),
-                  style: GoogleFonts.poppins(),
+      body: RefreshIndicator(
+        onRefresh: () async {},
+        child: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: ingresos.length,
+          itemBuilder: (context, index) {
+            final registro = ingresos[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Card(
+                child: ListTile(
+                  title: Text(
+                    "${registro.firstName} ${registro.lastName}",
+                    style: GoogleFonts.poppins(),
+                  ),
+                  subtitle: Text(registro.email, style: GoogleFonts.poppins()),
+                  leading: registro.metodo == "Huella Digital"
+                      ? const Icon(Icons.fingerprint)
+                      : const Icon(Icons.dialpad),
+                  trailing: Text(
+                    registro.formatearFechaHora(),
+                    style: GoogleFonts.poppins(),
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
+

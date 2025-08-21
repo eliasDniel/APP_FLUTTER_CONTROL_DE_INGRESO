@@ -20,15 +20,35 @@ class HomeView extends ConsumerStatefulWidget {
   HomeViewState createState() => HomeViewState();
 }
 
-class HomeViewState extends ConsumerState<HomeView> {
+class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     ref.read(metricesProvider.notifier).loadMetricas();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    
     final registroProvider = ref.watch(metricesProvider);
+    final isLoading = ref.watch(metricesProvider.notifier).isLoading;
+    if (isLoading) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 50),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              Text('Cargando...', style: GoogleFonts.poppins(fontSize: 16)),
+            ],
+          ),
+        ),
+      );
+    }
+
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
@@ -46,7 +66,7 @@ class HomeViewState extends ConsumerState<HomeView> {
                     children: [
                       const MyFiles(),
                       const SizedBox(height: defaultPadding),
-                       RecentFiles(ingresos: registroProvider.ultimos10,),
+                      RecentFiles(ingresos: registroProvider.ultimos10),
                       if (Responsive.isMobile(context))
                         const SizedBox(height: defaultPadding),
                       if (Responsive.isMobile(context)) const StorageDetails(),
@@ -65,6 +85,9 @@ class HomeViewState extends ConsumerState<HomeView> {
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _BodyDasboard extends StatefulWidget {

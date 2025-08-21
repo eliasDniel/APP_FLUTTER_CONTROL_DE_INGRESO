@@ -5,11 +5,43 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:heroicons/heroicons.dart';
 
-class UsersView extends StatelessWidget {
+class UsersView extends ConsumerStatefulWidget {
   const UsersView({super.key});
 
   @override
+  UsersViewState createState() => UsersViewState();
+}
+
+class UsersViewState extends ConsumerState<UsersView> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(userRepositoryProvider.notifier).loadUserMethod();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final users = ref.watch(userRepositoryProvider);
+    final isLoading = ref.watch(userRepositoryProvider.notifier).isLoading;
+    if (isLoading) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 50),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              Text(
+                'Cargando datos...',
+                style: GoogleFonts.poppins(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,67 +57,46 @@ class UsersView extends StatelessWidget {
           ),
         ],
       ),
-      body: const _ListaUsers(),
-    );
-  }
-}
-
-class _ListaUsers extends ConsumerStatefulWidget {
-  const _ListaUsers();
-
-  @override
-  _ListaUsersState createState() => _ListaUsersState();
-}
-
-class _ListaUsersState extends ConsumerState<_ListaUsers> {
-  @override
-  void initState() {
-    super.initState();
-    ref.read(userRepositoryProvider.notifier).loadUserMethod();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final users = ref.watch(userRepositoryProvider);
-    return RefreshIndicator(
-      onRefresh: () async {},
-      child: ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          final registro = users[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Card(
-              child: ListTile(
-                onTap: () {
-                  // widget.registroProvider.selectUser(registro);
-                  // context.push('/home/2/select-user');
-                },
-                title: Text(
-                  '${registro.username} ${registro.lastname} ',
-                  style: GoogleFonts.poppins(),
+      body: RefreshIndicator(
+        onRefresh: () async {},
+        child: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            final registro = users[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Card(
+                child: ListTile(
+                  onTap: () {},
+                  title: Text(
+                    '${registro.username} ${registro.lastname} ',
+                    style: GoogleFonts.poppins(),
+                  ),
+                  subtitle: Text(registro.email, style: GoogleFonts.poppins()),
+                  leading: registro.isActive
+                      ? Text('Activo', style: GoogleFonts.poppins())
+                      : Text('Inactivo', style: GoogleFonts.poppins()),
+                  trailing: registro.isStaff
+                      ? const HeroIcon(
+                          HeroIcons.shieldCheck,
+                          size: 24,
+                          color: Colors.blue,
+                        ) // Icono de administrador
+                      : const HeroIcon(
+                          HeroIcons.userCircle,
+                          size: 24,
+                          color: Colors.grey,
+                        ), // Icono de usuario normal
                 ),
-                subtitle: Text(registro.email, style: GoogleFonts.poppins()),
-                leading: registro.isActive
-                    ? Text('Activo', style: GoogleFonts.poppins())
-                    : Text('Inactivo', style: GoogleFonts.poppins()),
-                trailing: registro.isStaff
-                    ? const HeroIcon(
-                        HeroIcons.shieldCheck,
-                        size: 24,
-                        color: Colors.blue,
-                      ) // Icono de administrador
-                    : const HeroIcon(
-                        HeroIcons.userCircle,
-                        size: 24,
-                        color: Colors.grey,
-                      ), // Icono de usuario normal
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
