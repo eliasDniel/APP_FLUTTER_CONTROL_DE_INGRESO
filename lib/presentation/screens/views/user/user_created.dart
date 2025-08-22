@@ -30,49 +30,6 @@ class _UserCreateScreenState extends State<UserCreateScreen> {
   bool _isConfirmPasswordVisible =
       false; // Para confirmar la visibilidad de la contraseña
 
-void _submitForm(RegistroProvider registroProvider) async {
-  if (_formKey.currentState!.validate()) {
-    String password = _passwordController.text;
-    String confirmPassword = _confirmPasswordController.text;
-
-    if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Las contraseñas no coinciden")),
-      );
-      return;
-    }
-
-
-
-    // Llamamos a la función del provider para registrar al usuario
-    await registroProvider.registrarUsuario(
-      _usernameController.text,
-      _firstNameController.text,
-      _lastNameController.text,
-      _emailController.text,
-      password,
-      _isActive,
-      _isStaff,
-    );
-
-    // Esperar a que el Completer se complete dentro de la misma función
-    // No es necesario hacer await, ya está gestionado dentro del provider
-
-    String responseMessage = registroProvider.message;
-
-
-
-    // Mostrar el SnackBar con el mensaje del provider
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(responseMessage)),
-    );
-
-    // Navegar hacia atrás
-    context.pop();
-  }
-}
-
-
   @override
   void dispose() {
     _confirmPasswordController.dispose();
@@ -86,16 +43,12 @@ void _submitForm(RegistroProvider registroProvider) async {
 
   @override
   Widget build(BuildContext context) {
-    final registroProvider = Provider.of<RegistroProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           'Crear Usuario',
-          style: GoogleFonts.poppins(
-            fontSize: 25,
-            fontWeight: FontWeight.w400,
-          ),
+          style: GoogleFonts.poppins(fontSize: 25, fontWeight: FontWeight.w400),
         ),
       ),
       body: Padding(
@@ -107,7 +60,10 @@ void _submitForm(RegistroProvider registroProvider) async {
               // Username
               TextFormField(
                 controller: _usernameController,
-                decoration:  InputDecoration(labelText: "Username",labelStyle:  GoogleFonts.poppins(),),
+                decoration: InputDecoration(
+                  labelText: "Username",
+                  labelStyle: GoogleFonts.poppins(),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Por favor ingresa un nombre de usuario";
@@ -119,7 +75,10 @@ void _submitForm(RegistroProvider registroProvider) async {
               // First Name
               TextFormField(
                 controller: _firstNameController,
-                decoration:  InputDecoration(labelText: "First Name",labelStyle:  GoogleFonts.poppins(),),
+                decoration: InputDecoration(
+                  labelText: "First Name",
+                  labelStyle: GoogleFonts.poppins(),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Por favor ingresa el nombre";
@@ -131,7 +90,10 @@ void _submitForm(RegistroProvider registroProvider) async {
               // Last Name
               TextFormField(
                 controller: _lastNameController,
-                decoration:  InputDecoration(labelText: "Last Name",labelStyle:  GoogleFonts.poppins(),),
+                decoration: InputDecoration(
+                  labelText: "Last Name",
+                  labelStyle: GoogleFonts.poppins(),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Por favor ingresa el apellido";
@@ -143,15 +105,18 @@ void _submitForm(RegistroProvider registroProvider) async {
               // Email
               TextFormField(
                 controller: _emailController,
-                decoration:  InputDecoration(labelText: "Email",labelStyle:  GoogleFonts.poppins(),),
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  labelStyle: GoogleFonts.poppins(),
+                ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Por favor ingresa un correo electrónico";
                   }
                   if (!RegExp(
-                          r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
-                      .hasMatch(value)) {
+                    r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$",
+                  ).hasMatch(value)) {
                     return "Por favor ingresa un correo electrónico válido";
                   }
                   return null;
@@ -163,7 +128,7 @@ void _submitForm(RegistroProvider registroProvider) async {
                 controller: _passwordController,
                 obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
-                  labelStyle:  GoogleFonts.poppins(),
+                  labelStyle: GoogleFonts.poppins(),
                   labelText: "Password",
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -191,7 +156,7 @@ void _submitForm(RegistroProvider registroProvider) async {
                 controller: _confirmPasswordController,
                 obscureText: !_isConfirmPasswordVisible,
                 decoration: InputDecoration(
-                  labelStyle:  GoogleFonts.poppins(),
+                  labelStyle: GoogleFonts.poppins(),
                   labelText: "Confirm Password",
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -227,7 +192,7 @@ void _submitForm(RegistroProvider registroProvider) async {
 
               // Staff
               SwitchListTile(
-                title: Text("Es Staff",style: GoogleFonts.poppins(),),
+                title: Text("Es Staff", style: GoogleFonts.poppins()),
                 value: _isStaff,
                 onChanged: (bool value) {
                   setState(() {
@@ -240,8 +205,8 @@ void _submitForm(RegistroProvider registroProvider) async {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () => _submitForm(registroProvider),
-                  child:  Text("Crear Usuario",style: GoogleFonts.poppins(),),
+                  onPressed: () {},
+                  child: Text("Crear Usuario", style: GoogleFonts.poppins()),
                 ),
               ),
             ],

@@ -2,11 +2,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../config/const/constantes.dart';
 import '../../../infrastructure/models/regitro_entradas/registro_entrada.dart';
-import '../../providers/registro_users_entradas.dart/registero_entradas.dart';
 import '../../widgets/custom_bottom_navigator.dart';
 import 'profile.dart';
 import 'register_huellas/home_view.dart';
@@ -41,13 +39,6 @@ class _HomeScreenState extends State<HomeScreen>
     channel.stream.listen((event) {
       final user = RegistroEntrada.fromString(event);
       if (user.firstName != "") {
-        Provider.of<RegistroProvider>(context, listen: false).addMonitoreoDesdeSocket(user);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Usuario ${user.firstName} ${user.lastName} ingresó'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
       }
     });
   }
@@ -135,106 +126,7 @@ class CustomDateDasboard extends StatelessWidget {
   }
 }
 
-class CustomDateFinales extends StatelessWidget {
-  final String number;
-  final String descrip;
-  const CustomDateFinales(
-      {super.key, required this.descrip, required this.number});
 
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(), borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 10, top: 10, right: 8, bottom: 20),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              descrip,
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w400, fontSize: 13),
-            ),
-            Text(
-              number,
-              style: GoogleFonts.poppins(
-                  fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-          ]),
-        ),
-      ),
-    );
-  }
-}
-
-class UsuariosScreen extends StatefulWidget {
-  final RegistroProvider registroProvider;
-  const UsuariosScreen({super.key, required this.registroProvider});
-
-  @override
-  State<UsuariosScreen> createState() => _UsuariosScreenState();
-}
-
-class _UsuariosScreenState extends State<UsuariosScreen> {
-  late final WebSocketChannel channel;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.registroProvider.obtenerRegistros();
-    channel = WebSocketChannel.connect(
-      Uri.parse('ws://$ipServer/ws/acceso/'),
-    );
-
-    // Escuchamos el stream manualmente
-    channel.stream.listen((event) {
-      final user = RegistroEntrada.fromString(event);
-      if (user.firstName != "") {
-        widget.registroProvider.addMonitoreoDesdeSocket(user);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Usuario ${user.firstName} ${user.lastName} ingresó'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    channel.sink.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final registros = widget.registroProvider.listaMonitoreo;
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          widget.registroProvider.inicializar();
-          widget.registroProvider.obtenerRegistros();
-        },
-        child: ListView.builder(
-          padding: const EdgeInsets.only(top: 0, left: 10, right: 10),
-          itemCount: registros.length,
-          itemBuilder: (context, index) {
-            final usuario = registros[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 5),
-              child: CustomRegistroEntrada(
-                registroEntrada: usuario,
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
 
 class CustomRegistroEntrada extends StatelessWidget {
   final RegistroEntrada registroEntrada;
@@ -345,98 +237,3 @@ class CustomLineChart extends StatelessWidget {
   }
 }
 
-class CustomBarChart extends StatefulWidget {
-  const CustomBarChart({super.key});
-
-  @override
-  State<CustomBarChart> createState() => _CustomBarChartState();
-}
-
-class _CustomBarChartState extends State<CustomBarChart> {
-  
-  @override
-  Widget build(BuildContext context) {
-    final registroProvider = Provider.of<RegistroProvider>(context);
-    return BarChart(
-      BarChartData(
-        alignment: BarChartAlignment.spaceAround,
-        maxY: 60,
-        minY: 0,
-        titlesData: FlTitlesData(
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              interval: 10,
-              getTitlesWidget: (value, meta) {
-                return Text('${value.toInt()}',
-                    style: const TextStyle(fontSize: 10));
-              },
-            ),
-          ),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                const style =
-                    TextStyle(fontSize: 12, fontWeight: FontWeight.w500);
-                switch (value.toInt()) {
-                  case 0:
-                    return const Text('Por Huella', style: style);
-                  case 1:
-                    return const Text('Por PIN', style: style);
-                  case 2:
-                    return const Text('Administradores', style: style);
-                  case 3:
-                    return const Text('Usuarios', style: style);
-                  default:
-                    return const SizedBox.shrink();
-                }
-              },
-              reservedSize: 40,
-            ),
-          ),
-        ),
-        gridData: const FlGridData(show: false),
-        borderData: FlBorderData(
-          show: true,
-          border: const Border(
-            bottom: BorderSide(color: Colors.white, width: 1),
-            left: BorderSide(color: Colors.white, width: 1),
-            right: BorderSide.none,
-            top: BorderSide.none,
-          ),
-        ),
-        barGroups: [
-          BarChartGroupData(
-            x: 0,
-            barRods: [
-              BarChartRodData(
-                  toY: registroProvider.ingresosPorHuella.toDouble(), color: Colors.purple.shade300, width: 20),
-            ],
-          ),
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(toY: registroProvider.ingresosPorPIN.toDouble(), color: Colors.pink.shade200, width: 20),
-            ],
-          ),
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(
-                  toY: registroProvider.admin.toDouble(), color: Colors.orange.shade300, width: 20),
-            ],
-          ),
-          BarChartGroupData(
-            x: 3,
-            barRods: [
-              BarChartRodData(toY: registroProvider.userNormales.toDouble(), color: Colors.green.shade200, width: 20),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
