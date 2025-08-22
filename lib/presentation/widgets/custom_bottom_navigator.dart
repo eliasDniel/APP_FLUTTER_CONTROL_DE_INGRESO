@@ -51,7 +51,7 @@ class CustomBottomNavigation extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: HeroIcon(
-            HeroIcons.eye, // Monitoreo
+            HeroIcons.signal, // Monitoreo
             style: HeroIconStyle.outline,
             size: 30, // Aumentar tamaño del icono
           ),

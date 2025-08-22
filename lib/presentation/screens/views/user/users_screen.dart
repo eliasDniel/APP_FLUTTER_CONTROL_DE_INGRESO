@@ -44,57 +44,46 @@ class UsersViewState extends ConsumerState<UsersView> with AutomaticKeepAliveCli
       );
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Users',
-          style: GoogleFonts.poppins(fontSize: 25, fontWeight: FontWeight.w400),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.push('/home/2/user-create');
-            },
-            icon: const HeroIcon(HeroIcons.userPlus),
-          ),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {},
-        child: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            final registro = users[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 5),
-              child: FadeInUp(
-                child: Card(
-                  child: ListTile(
-                    onTap: () {},
-                    title: Text(
-                      '${registro.username} ${registro.lastname} ',
-                      style: GoogleFonts.poppins(),
+      
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {},
+          child: ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              final registro = users[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: FadeInUp(
+                  child: Card(
+                    child: ListTile(
+                      onTap: () {},
+                      title: Text(
+                        '${registro.username} ${registro.lastname} ',
+                        style: GoogleFonts.poppins(),
+                      ),
+                      subtitle: Text(registro.email, style: GoogleFonts.poppins()),
+                      leading: registro.isActive
+                          ? Text('Activo', style: GoogleFonts.poppins())
+                          : Text('Inactivo', style: GoogleFonts.poppins()),
+                      trailing: registro.isStaff
+                          ? const HeroIcon(
+                              HeroIcons.shieldCheck,
+                              size: 24,
+                              color: Colors.blue,
+                            ) // Icono de administrador
+                          : const HeroIcon(
+                              HeroIcons.userCircle,
+                              size: 24,
+                              color: Colors.grey,
+                            ), // Icono de usuario normal
                     ),
-                    subtitle: Text(registro.email, style: GoogleFonts.poppins()),
-                    leading: registro.isActive
-                        ? Text('Activo', style: GoogleFonts.poppins())
-                        : Text('Inactivo', style: GoogleFonts.poppins()),
-                    trailing: registro.isStaff
-                        ? const HeroIcon(
-                            HeroIcons.shieldCheck,
-                            size: 24,
-                            color: Colors.blue,
-                          ) // Icono de administrador
-                        : const HeroIcon(
-                            HeroIcons.userCircle,
-                            size: 24,
-                            color: Colors.grey,
-                          ), // Icono de usuario normal
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
