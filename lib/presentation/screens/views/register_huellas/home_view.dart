@@ -64,7 +64,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                   flex: 5,
                   child: Column(
                     children: [
-                      const MyFiles(),
+                      MyFiles(myFilesMetrics: registroProvider),
                       const SizedBox(height: defaultPadding),
                       RecentFiles(ingresos: registroProvider.ultimos10),
                       if (Responsive.isMobile(context))
