@@ -1,9 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-
-import '../const/constantes.dart';
-
 class CloudStorageInfo {
   final String? title, totalStorage;
   final int? numOfFiles, percentage;

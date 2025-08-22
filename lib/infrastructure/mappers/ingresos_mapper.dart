@@ -1,8 +1,8 @@
 import 'package:app_flutter_biometry_access/domain/entities/entrada.dart';
-import 'package:app_flutter_biometry_access/infrastructure/models/regitro_entradas/registro_entrada.dart';
+import '../models/regitro_entradas/registro_response.dart';
 
 class IngresosMapper {
-  static Ingreso fromIngresoToEntity(RegistroEntrada ingreso) => Ingreso(
+  static Ingreso fromIngresoToEntity(IngresoResult ingreso) => Ingreso(
     username: ingreso.username,
     email: ingreso.email,
     fechaHora: ingreso.fechaHora,

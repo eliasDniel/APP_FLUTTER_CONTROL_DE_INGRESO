@@ -1,10 +1,8 @@
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../config/const/constantes.dart';
-import '../../../infrastructure/models/regitro_entradas/registro_entrada.dart';
 import '../../widgets/custom_bottom_navigator.dart';
 import 'profile.dart';
 import 'register_huellas/home_view.dart';
@@ -31,16 +29,10 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     pageController = PageController(keepPage: true);
-    channel = WebSocketChannel.connect(
-      Uri.parse('ws://$ipServer/ws/acceso/'),
-    );
+    channel = WebSocketChannel.connect(Uri.parse('ws://$ipServer/ws/acceso/'));
 
     // Escuchamos el stream manualmente
-    channel.stream.listen((event) {
-      final user = RegistroEntrada.fromString(event);
-      if (user.firstName != "") {
-      }
-    });
+    channel.stream.listen((event) {});
   }
 
   @override
@@ -90,66 +82,54 @@ class CustomDateDasboard extends StatelessWidget {
   final Color color;
   final String number;
   final String descrip;
-  const CustomDateDasboard(
-      {super.key,
-      required this.color,
-      required this.descrip,
-      required this.number});
+  const CustomDateDasboard({
+    super.key,
+    required this.color,
+    required this.descrip,
+    required this.number,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-            color: color,
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(20)),
+          color: color,
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 30),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              number,
-              style: GoogleFonts.poppins(
-                  fontSize: 25, fontWeight: FontWeight.w600),
-            ),
-            Text(
-              descrip,
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w400, fontSize: 14),
-            )
-          ]),
+          padding: const EdgeInsets.only(
+            left: 16,
+            top: 16,
+            right: 16,
+            bottom: 30,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                number,
+                style: GoogleFonts.poppins(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                descrip,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-
-
-class CustomRegistroEntrada extends StatelessWidget {
-  final RegistroEntrada registroEntrada;
-  const CustomRegistroEntrada({
-    super.key,
-    required this.registroEntrada,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme;
-    return ListTile(
-      trailing: registroEntrada.metodo == "Huella Digital"
-          ? const Icon(Icons.fingerprint)
-          : const Icon(Icons.dialpad),
-      title: Text(
-        '${registroEntrada.firstName} ${registroEntrada.lastName}',
-        style: textStyle.titleMedium,
-      ),
-      subtitle: Text(registroEntrada.fechaHora),
-    );
-  }
-}
 
 class CustomLineChart extends StatelessWidget {
   const CustomLineChart({super.key});
@@ -161,12 +141,14 @@ class CustomLineChart extends StatelessWidget {
         titlesData: FlTitlesData(
           show: true,
           topTitles: const AxisTitles(
-            sideTitles:
-                SideTitles(showTitles: false), // 🔕 Oculta los de arriba
+            sideTitles: SideTitles(
+              showTitles: false,
+            ), // 🔕 Oculta los de arriba
           ),
           rightTitles: const AxisTitles(
-            sideTitles:
-                SideTitles(showTitles: false), // 🔕 Oculta los de la derecha
+            sideTitles: SideTitles(
+              showTitles: false,
+            ), // 🔕 Oculta los de la derecha
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
@@ -236,4 +218,3 @@ class CustomLineChart extends StatelessWidget {
     );
   }
 }
-

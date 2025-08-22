@@ -1,10 +1,13 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:app_flutter_biometry_access/domain/entities/user.dart';
 import 'package:app_flutter_biometry_access/presentation/providers/users/user_provider_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:heroicons/heroicons.dart';
+
+import '../../../../config/const/constantes.dart';
 
 class UsersView extends ConsumerStatefulWidget {
   const UsersView({super.key});
@@ -13,7 +16,8 @@ class UsersView extends ConsumerStatefulWidget {
   UsersViewState createState() => UsersViewState();
 }
 
-class UsersViewState extends ConsumerState<UsersView> with AutomaticKeepAliveClientMixin {
+class UsersViewState extends ConsumerState<UsersView>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -44,7 +48,6 @@ class UsersViewState extends ConsumerState<UsersView> with AutomaticKeepAliveCli
       );
     }
     return Scaffold(
-      
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {},
@@ -53,42 +56,94 @@ class UsersViewState extends ConsumerState<UsersView> with AutomaticKeepAliveCli
             itemCount: users.length,
             itemBuilder: (context, index) {
               final registro = users[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: FadeInUp(
-                  child: Card(
-                    child: ListTile(
-                      onTap: () {},
-                      title: Text(
-                        '${registro.username} ${registro.lastname} ',
-                        style: GoogleFonts.poppins(),
-                      ),
-                      subtitle: Text(registro.email, style: GoogleFonts.poppins()),
-                      leading: registro.isActive
-                          ? Text('Activo', style: GoogleFonts.poppins())
-                          : Text('Inactivo', style: GoogleFonts.poppins()),
-                      trailing: registro.isStaff
-                          ? const HeroIcon(
-                              HeroIcons.shieldCheck,
-                              size: 24,
-                              color: Colors.blue,
-                            ) // Icono de administrador
-                          : const HeroIcon(
-                              HeroIcons.userCircle,
-                              size: 24,
-                              color: Colors.grey,
-                            ), // Icono de usuario normal
+              return CustomUser(user: registro);
+            },
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push('/home/2/user-create');
+        },
+        child: const HeroIcon(HeroIcons.userPlus),
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class CustomUser extends StatelessWidget {
+  const CustomUser({super.key, required this.user});
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeInUp(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          border: Border.all(color: Colors.white10, width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Image.asset(
+                "assets/images/${user.isStaff ? 'admin' : 'user'}.png",
+                width: 50,
+                height: 50,
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Ingreso detectado",
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    '${user.username} ${user.lastname}',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    user.email,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white54,
                     ),
                   ),
-                ),
-              );
-            },
+                ],
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    user.isStaff ? 'Admin' : 'User',
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white54,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  HeroIcon(
+                    user.isStaff ? HeroIcons.shieldCheck : HeroIcons.userCircle,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
     );
   }
-  
-  @override
-  bool get wantKeepAlive => true;
 }
