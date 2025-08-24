@@ -12,7 +12,6 @@ class UserCreateScreen extends StatefulWidget {
 
 class _UserCreateScreenState extends State<UserCreateScreen> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();

@@ -15,7 +15,8 @@ This project is a real-time access monitoring application built with Flutter. It
 
 ## Screenshots
 <!-- Add screenshots here if available -->
-![Descripción de la imagen](assets/imagen.png)
+![Descripción de la imagen](assets/imag1.png)
+![Descripción de la imagen](assets/image.png)
 
 ## Getting Started
 
