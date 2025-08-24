@@ -1,6 +1,9 @@
-import 'package:app_flutter_biometry_access/domain/entities/metricas.dart';
-import 'package:app_flutter_biometry_access/presentation/providers/metricas/metrices_instance_provider.dart';
+
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../domain/domain.dart';
+import '../providers.dart';
 
 final metricesProvider = StateNotifierProvider<MetricasNotifier, Metricas>((
   ref,

@@ -1,7 +1,11 @@
+
+
+
+import 'package:app_flutter_biometry_access/presentation/widgets/storage_info_card.dart';
 import 'package:flutter/material.dart';
 import '../../../config/const/constantes.dart';
 import 'chart.dart';
-import 'storage_info_card.dart';
+
 
 class StorageDetails extends StatelessWidget {
   String getPercent(int value) {

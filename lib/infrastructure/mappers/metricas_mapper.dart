@@ -1,7 +1,6 @@
-import 'package:app_flutter_biometry_access/domain/entities/metricas.dart';
-import 'package:app_flutter_biometry_access/infrastructure/models/metricas_response.dart';
 
-import '../../domain/entities/entrada.dart';
+import '../../domain/domain.dart';
+import '../infrastructure.dart';
 
 class MetricasMapper {
   static Metricas fromMetricasToEntity(MetricasResult metricas) => Metricas(

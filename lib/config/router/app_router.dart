@@ -1,6 +1,4 @@
 import 'package:go_router/go_router.dart';
-import '../../presentation/screens/notifications/notifications_details.dart';
-import '../../presentation/screens/notifications/view_notifications.dart';
 import '../../presentation/screens/screens.dart';
 
 final appRouter = GoRouter(

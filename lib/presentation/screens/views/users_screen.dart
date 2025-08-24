@@ -1,34 +1,35 @@
+
+
 import 'package:animate_do/animate_do.dart';
-import 'package:app_flutter_biometry_access/domain/entities/entrada.dart';
-import 'package:app_flutter_biometry_access/presentation/providers/ingresos/ingresos_provider_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:heroicons/heroicons.dart';
+import '../../../config/config.dart';
+import '../../../domain/domain.dart';
+import '../../providers/providers.dart';
 
-
-import '../../../../config/const/constantes.dart';
-
-class MonitoreoView extends ConsumerStatefulWidget {
-  const MonitoreoView({super.key});
+class UsersView extends ConsumerStatefulWidget {
+  const UsersView({super.key});
 
   @override
-  MonitoreoViewState createState() => MonitoreoViewState();
+  UsersViewState createState() => UsersViewState();
 }
 
-class MonitoreoViewState extends ConsumerState<MonitoreoView>
+class UsersViewState extends ConsumerState<UsersView>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
-    ref.read(ingresosRepositoryProvider.notifier).loadIngresosMethod();
+    ref.read(userRepositoryProvider.notifier).loadUserMethod();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final ingresos = ref.watch(ingresosRepositoryProvider);
-    final isLoading = ref.watch(ingresosRepositoryProvider.notifier).isLoading;
+    final users = ref.watch(userRepositoryProvider);
+    final isLoading = ref.watch(userRepositoryProvider.notifier).isLoading;
     if (isLoading) {
       return Center(
         child: Padding(
@@ -53,13 +54,19 @@ class MonitoreoViewState extends ConsumerState<MonitoreoView>
           onRefresh: () async {},
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
-            itemCount: ingresos.length,
+            itemCount: users.length,
             itemBuilder: (context, index) {
-              final registro = ingresos[index];
-              return CustomMonitoreo(registro: registro);
+              final registro = users[index];
+              return CustomUser(user: registro);
             },
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push('/home/2/user-create');
+        },
+        child: const HeroIcon(HeroIcons.userPlus),
       ),
     );
   }
@@ -68,20 +75,17 @@ class MonitoreoViewState extends ConsumerState<MonitoreoView>
   bool get wantKeepAlive => true;
 }
 
-class CustomMonitoreo extends StatelessWidget {
-  const CustomMonitoreo({
-    super.key,
-    required this.registro,
-  });
+class CustomUser extends StatelessWidget {
+  const CustomUser({super.key, required this.user});
 
-  final Ingreso registro;
+  final User user;
 
   @override
   Widget build(BuildContext context) {
     return FadeInUp(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 8),
-        decoration:  BoxDecoration(
+        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+        decoration: BoxDecoration(
           color: secondaryColor,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(color: Colors.white10, width: 1),
@@ -90,8 +94,12 @@ class CustomMonitoreo extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-             Image.asset( "assets/images/${registro.isAdmin ? 'admin':'user'}.png", width: 50, height: 50),
-             const SizedBox(width: 10),
+              Image.asset(
+                "assets/images/${user.isStaff ? 'admin' : 'user'}.png",
+                width: 50,
+                height: 50,
+              ),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -101,13 +109,16 @@ class CustomMonitoreo extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    '${registro.firstName} ${registro.lastName}',
+                    '${user.username} ${user.lastname}',
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    registro.email,
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: Colors.white54),
+                    user.email,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white54,
+                    ),
                   ),
                 ],
               ),
@@ -115,11 +126,21 @@ class CustomMonitoreo extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(registro.formatearFechaHora(),style: const TextStyle(fontWeight: FontWeight.bold),),
+                  Text(
+                    user.isStaff ? 'Admin' : 'User',
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white54,
+                    ),
+                  ),
                   const SizedBox(height: 5),
-                  SvgPicture.asset("assets/icons/${registro.metodo == "Huella Digital" ? "huella" : "pin"}.svg", height: 35, width: 35, color: Colors.white),
+                  HeroIcon(
+                    user.isStaff ? HeroIcons.shieldCheck : HeroIcons.userCircle,
+                    size: 24,
+                    color: Colors.white,
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

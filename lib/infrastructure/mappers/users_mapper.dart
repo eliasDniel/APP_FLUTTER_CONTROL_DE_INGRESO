@@ -1,6 +1,7 @@
-import 'package:app_flutter_biometry_access/infrastructure/models/regitro_entradas/users_response.dart';
 
-import '../../domain/entities/user.dart';
+
+import '../../domain/domain.dart';
+import '../infrastructure.dart';
 
 class UsersMapper {
   static User formUserToEntity(UserResult user) => User(

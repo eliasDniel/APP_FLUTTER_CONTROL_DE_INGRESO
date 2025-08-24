@@ -1,9 +1,8 @@
-import 'package:app_flutter_biometry_access/presentation/blocs/notifications/notifications_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../domain/entities/push_message.dart';
-
+import '../../../domain/domain.dart';
+import '../../blocs/notifications/notifications_bloc.dart';
 
 class NotificationsDetails extends StatelessWidget {
   static const String name = 'notification-view';

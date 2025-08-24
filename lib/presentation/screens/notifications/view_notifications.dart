@@ -29,7 +29,7 @@ class _NotificationsPermissionsState extends State<NotificationsPermissions> {
               icon: const Icon(Icons.settings))
         ],
       ),
-      body: _HomeView(),
+      body: const _HomeView(),
     );
   }
 }

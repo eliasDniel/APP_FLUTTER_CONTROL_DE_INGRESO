@@ -1,6 +1,8 @@
-import 'package:app_flutter_biometry_access/config/const/constantes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../config/config.dart';
 
 class UserCreateScreen extends StatefulWidget {
   static const String name = 'user-created';

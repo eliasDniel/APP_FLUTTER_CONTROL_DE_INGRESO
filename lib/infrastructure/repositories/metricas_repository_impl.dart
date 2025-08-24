@@ -1,6 +1,6 @@
-import '../../domain/datasouces/metricas_data_sources.dart';
-import '../../domain/entities/metricas.dart';
-import '../../domain/repositories/metricas_repository.dart';
+
+
+import '../../domain/domain.dart';
 
 class MetricasRepositoryImpl implements MetricasRepository {
   final MetricasDataSources dataSources;

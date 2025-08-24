@@ -1,34 +1,38 @@
+
+
+
+
+
 import 'package:animate_do/animate_do.dart';
-import 'package:app_flutter_biometry_access/domain/entities/user.dart';
-import 'package:app_flutter_biometry_access/presentation/providers/users/user_provider_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:heroicons/heroicons.dart';
 
-import '../../../../config/const/constantes.dart';
+import '../../../config/config.dart';
+import '../../../domain/domain.dart';
+import '../../providers/providers.dart';
 
-class UsersView extends ConsumerStatefulWidget {
-  const UsersView({super.key});
+class MonitoreoView extends ConsumerStatefulWidget {
+  const MonitoreoView({super.key});
 
   @override
-  UsersViewState createState() => UsersViewState();
+  MonitoreoViewState createState() => MonitoreoViewState();
 }
 
-class UsersViewState extends ConsumerState<UsersView>
+class MonitoreoViewState extends ConsumerState<MonitoreoView>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
-    ref.read(userRepositoryProvider.notifier).loadUserMethod();
+    ref.read(ingresosRepositoryProvider.notifier).loadIngresosMethod();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final users = ref.watch(userRepositoryProvider);
-    final isLoading = ref.watch(userRepositoryProvider.notifier).isLoading;
+    final ingresos = ref.watch(ingresosRepositoryProvider);
+    final isLoading = ref.watch(ingresosRepositoryProvider.notifier).isLoading;
     if (isLoading) {
       return Center(
         child: Padding(
@@ -53,19 +57,13 @@ class UsersViewState extends ConsumerState<UsersView>
           onRefresh: () async {},
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
-            itemCount: users.length,
+            itemCount: ingresos.length,
             itemBuilder: (context, index) {
-              final registro = users[index];
-              return CustomUser(user: registro);
+              final registro = ingresos[index];
+              return CustomMonitoreo(registro: registro);
             },
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push('/home/2/user-create');
-        },
-        child: const HeroIcon(HeroIcons.userPlus),
       ),
     );
   }
@@ -74,17 +72,20 @@ class UsersViewState extends ConsumerState<UsersView>
   bool get wantKeepAlive => true;
 }
 
-class CustomUser extends StatelessWidget {
-  const CustomUser({super.key, required this.user});
+class CustomMonitoreo extends StatelessWidget {
+  const CustomMonitoreo({
+    super.key,
+    required this.registro,
+  });
 
-  final User user;
+  final Ingreso registro;
 
   @override
   Widget build(BuildContext context) {
     return FadeInUp(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-        decoration: BoxDecoration(
+        margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 8),
+        decoration:  BoxDecoration(
           color: secondaryColor,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(color: Colors.white10, width: 1),
@@ -93,12 +94,8 @@ class CustomUser extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Image.asset(
-                "assets/images/${user.isStaff ? 'admin' : 'user'}.png",
-                width: 50,
-                height: 50,
-              ),
-              const SizedBox(width: 10),
+             Image.asset( "assets/images/${registro.isAdmin ? 'admin':'user'}.png", width: 50, height: 50),
+             const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -108,16 +105,13 @@ class CustomUser extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    '${user.username} ${user.lastname}',
+                    '${registro.firstName} ${registro.lastName}',
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    user.email,
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white54,
-                    ),
+                    registro.email,
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: Colors.white54),
                   ),
                 ],
               ),
@@ -125,21 +119,11 @@ class CustomUser extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    user.isStaff ? 'Admin' : 'User',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white54,
-                    ),
-                  ),
+                  Text(registro.formatearFechaHora(),style: const TextStyle(fontWeight: FontWeight.bold),),
                   const SizedBox(height: 5),
-                  HeroIcon(
-                    user.isStaff ? HeroIcons.shieldCheck : HeroIcons.userCircle,
-                    size: 24,
-                    color: Colors.white,
-                  ),
+                  SvgPicture.asset("assets/icons/${registro.metodo == "Huella Digital" ? "huella" : "pin"}.svg", height: 35, width: 35, color: Colors.white),
                 ],
-              ),
+              )
             ],
           ),
         ),

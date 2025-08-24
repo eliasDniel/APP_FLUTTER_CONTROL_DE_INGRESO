@@ -1,6 +1,6 @@
-import 'package:app_flutter_biometry_access/domain/datasouces/ingresos_datasources.dart';
-import 'package:app_flutter_biometry_access/domain/entities/entrada.dart';
-import 'package:app_flutter_biometry_access/domain/repositories/ingreso_repository.dart';
+
+
+import '../../domain/domain.dart';
 
 class IngresosRepositoryImpl extends IngresoRepository {
   final IngresoDatasources datasources;

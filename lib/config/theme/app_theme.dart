@@ -1,6 +1,7 @@
-import 'package:app_flutter_biometry_access/config/const/constantes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../config.dart';
 
 class AppTheme {
   ThemeData getTheme(BuildContext context) {

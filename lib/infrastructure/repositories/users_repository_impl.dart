@@ -1,7 +1,7 @@
-import 'package:app_flutter_biometry_access/domain/datasouces/users_datasources.dart';
-import 'package:app_flutter_biometry_access/domain/entities/user.dart';
-import 'package:app_flutter_biometry_access/domain/repositories/users_repository.dart';
 
+
+
+import '../../domain/domain.dart';
 
 class UsersRepositoryImpl extends UsersRepository {
   final UsersDatasources datasources;

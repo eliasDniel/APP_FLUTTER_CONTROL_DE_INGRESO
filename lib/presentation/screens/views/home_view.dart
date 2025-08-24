@@ -1,17 +1,11 @@
-import 'package:app_flutter_biometry_access/presentation/providers/metricas/metricas_provider_state.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:heroicons/heroicons.dart';
-import '../../../../config/const/constantes.dart';
-import '../../../../config/helpers/responsive.dart';
-import '../../../providers/registro_users_entradas.dart/registero_entradas.dart';
-import '../../../widgets/components/header.dart';
-import '../../../widgets/components/my_fields.dart';
-import '../../../widgets/components/recent_files.dart';
-import '../../../widgets/components/storage_details.dart';
-import '../home_screen.dart';
+import '../../../config/config.dart';
+import '../../providers/providers.dart';
+import '../../widgets/widgets.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});

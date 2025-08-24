@@ -2,11 +2,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../widgets/custom_bottom_navigator.dart';
-import 'profile.dart';
-import 'register_huellas/home_view.dart';
-import 'register_huellas/monitoreo_view.dart';
-import 'user/users_screen.dart';
+import '../../widgets/widgets.dart';
+import '../screens.dart';
 
 class HomeScreen extends StatefulWidget {
   static const name = 'home-screen';
