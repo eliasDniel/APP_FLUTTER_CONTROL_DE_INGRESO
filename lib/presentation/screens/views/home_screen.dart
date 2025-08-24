@@ -1,8 +1,7 @@
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import '../../../config/const/constantes.dart';
 import '../../widgets/custom_bottom_navigator.dart';
 import 'profile.dart';
 import 'register_huellas/home_view.dart';
@@ -23,16 +22,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
   late PageController pageController;
-  late final WebSocketChannel channel;
 
   @override
   void initState() {
     super.initState();
     pageController = PageController(keepPage: true);
-    channel = WebSocketChannel.connect(Uri.parse('ws://$ipServer/ws/acceso/'));
-
-    // Escuchamos el stream manualmente
-    channel.stream.listen((event) {});
   }
 
   @override
@@ -129,7 +123,6 @@ class CustomDateDasboard extends StatelessWidget {
     );
   }
 }
-
 
 class CustomLineChart extends StatelessWidget {
   const CustomLineChart({super.key});

@@ -19,4 +19,7 @@ class UsersMapper {
     isActive: user.isActive,
     isStaff: user.isStaff,
   );
+
+
+  
 }

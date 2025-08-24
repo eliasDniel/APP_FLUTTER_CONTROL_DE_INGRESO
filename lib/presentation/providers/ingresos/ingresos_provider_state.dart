@@ -22,4 +22,13 @@ class IngresosNotifier extends StateNotifier<List<Ingreso>> {
     state = [...state, ...ingresos];
     isLoading = false;
   }
+
+  void refreshIngresos() {
+    state = [];
+    loadIngresosMethod();
+  }
+
+  void addSocketIngreso(Ingreso ingreso) {
+    state = [ingreso, ...state];
+  }
 }
